@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.1.4'
 
+
 gem 'pg'
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
@@ -17,7 +18,6 @@ gem 'js-routes'
 
 # Use either one of these, but please not both
 gem 'jbuilder', '~> 2.0'
-gem 'active_model_serializers'
 
 # Add Handlebars template support
 gem 'handlebars_assets'
