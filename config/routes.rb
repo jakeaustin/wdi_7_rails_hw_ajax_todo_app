@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root "todos#index"
+  root "home#index"
   resources :todos, except: [:new, :edit]
 
 end

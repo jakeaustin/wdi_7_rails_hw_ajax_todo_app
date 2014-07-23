@@ -8,21 +8,19 @@ class TodosController < ApplicationController
   respond_to :json
 
   def index
-    @todos = Todo.all
-    respond_with(@todos)
+    respond_with (@todos = Todo.all)
   end
 
   def show
-    @todo = Todo.find(params[:id])
-    respond_with(@todo)
+    respond_with (@todo = Todo.find(params[:id]))
   end
 
   def create
     @todo = Todo.new(todo_params)
     if @todo.save
-      respond_with(@todo)
+      respond_with @todo
     else
-      respond_with(@todo.errors)
+      respond_with @todo.errors
     end
   end
 
