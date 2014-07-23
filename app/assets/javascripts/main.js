@@ -14,6 +14,8 @@ $(document).ready(function() {
   todosCallbackHandler = function(todos) {
     var todosHTML = '';
     var donesHTML = '';
+    var todoCount = 0;
+    var doneCount = 0;
     //build html
     for(var i=0; i<todos.length; i++){
       if (todos[i].completed) {
@@ -22,6 +24,7 @@ $(document).ready(function() {
         donesHTML+= todos[i].completed_at;
         donesHTML+= '<button class="delete">Delete</button>';
         donesHTML+= '</li>';
+        doneCount ++;
       }
       else {
         todosHTML+= '<li class="uncomplete" id=' + todos[i].id + '>';
@@ -30,10 +33,13 @@ $(document).ready(function() {
         todosHTML+= '<button class="complete">Complete</button>';
         todosHTML+= '<button class="delete">Delete</button>';
         todosHTML+= '</li>';
+        todoCount ++;
       }
     }
     $('#todos').empty();
     $('#dones').empty();
+    $('#dones').append(doneCount);
+    $('#todos').append(todoCount);
     $('#dones').append(donesHTML);
     $('#todos').append(todosHTML);
   },
