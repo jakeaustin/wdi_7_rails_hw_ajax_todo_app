@@ -90,11 +90,7 @@ $(document).ready(function() {
     return html;
   },
   getDone = function(id){
-    $.ajax({
-      type: 'GET',
-      url: 'http://localhost:3000/todos/' + id,
-      dataType: 'json',
-    }).done(doneCallbackHandler);
+
   },
   // add done to dones list and increment counter
   doneCallbackHandler = function(todo) {
@@ -115,8 +111,21 @@ $(document).ready(function() {
       type: 'PUT',
       url: 'http://localhost:3000/todos/' + todoID,
       dataType: 'json'
-    }).done(getDone(todoID))
-      .fail(console.log('failed'));
+    })
+    .done(function(data) {
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:3000/todos/' + todoID,
+        dataType: 'json',
+      }).done(doneCallbackHandler);
+    })
+    .fail(console.log('failed'));
+
+    count = $('#todoCount').attr('val');
+    count --;
+    $('#todoCount').attr('val', count);
+    $('#todoCount').empty();
+    $('#todoCount').append(count);
   },
     //   STILL FAILING, DESPITE APPARENTLY WORKING
     //////////////////////////////////////////////
