@@ -27,6 +27,14 @@ class TodosController < ApplicationController
     end
   end
 
+  def update
+    @todo = Todo.find(params[:id])
+    @todo.completed_at = Time.now
+    @todo.completed = true
+    @todo.save
+    respond_with @todo
+  end
+
   private
 
   def todo_params
