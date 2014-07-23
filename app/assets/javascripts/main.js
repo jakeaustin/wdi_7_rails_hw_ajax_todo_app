@@ -15,7 +15,6 @@ $(document).ready(function() {
     var todosHTML = '';
     var donesHTML = '';
     //build html
-    console.log('in get handler');
     for(var i=0; i<todos.length; i++){
       if (todos[i].completed) {
         donesHTML+= '<li class="complete" id=' + todos[i].id + '>';
@@ -31,12 +30,8 @@ $(document).ready(function() {
         todosHTML+= '<button class="complete">Complete</button>';
         todosHTML+= '<button class="delete">Delete</button>';
         todosHTML+= '</li>';
-        console.log('in uncompleted');
       }
     }
-
-    console.log(todosHTML);
-    console.log(donesHTML);
     $('#todos').empty();
     $('#dones').empty();
     $('#dones').append(donesHTML);
@@ -84,7 +79,6 @@ $(document).ready(function() {
     return html;
   },
   getDone = function(id){
-    console.log('in done');
     $.ajax({
       type: 'GET',
       url: 'http://localhost:3000/todos/' + id,
@@ -92,7 +86,6 @@ $(document).ready(function() {
     }).done(doneCallbackHandler);
   },
   doneCallbackHandler = function(todo) {
-    console.log('in handler');
     $('#dones').append(completeTodoHTML(todo));
   },
   completeTodoCallbackHandler = function(event) {
@@ -107,12 +100,23 @@ $(document).ready(function() {
       dataType: 'json'
     }).done(getDone(todoID))
       .fail(console.log('failed'));
+  },
+    //   STILL FAILING, DESPITE APPARENTLY WORKING
+  deleteTodoCallbackHandler = function(event){
+    event.preventDefault();
+    var todoID = $(this).parent().attr('id');
+    $(this).parent().remove();
+    $.ajax({
+      type: 'DELETE',
+      url: 'http://localhost:3000/todos/' + todoID,
+      dataType: 'json'
+    });
   };
-//   STILL FAILING, DESPITE APPARENTLY WORKING
 
+  //set up click handler for deleting a todo
+  $('ol').on('click', '.delete', deleteTodoCallbackHandler);
   //set up click handler for completing a todo
   $('#todos').on('click', '.complete', completeTodoCallbackHandler);
-
   // Set up click handler for form submit
   $('#new-todo').on('submit', createTodoCallbackHandler);
   // Set up click handler for getting articles.
