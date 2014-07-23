@@ -8,7 +8,11 @@ class TodosController < ApplicationController
   respond_to :json
 
   def index
-    respond_with (@todos = Todo.all)
+    #respond_with (@todos = Todo.all)
+    @todos = Todo.all
+    respond_to do |format|
+      format.json { render :json => @todos }
+    end
   end
 
   def show
