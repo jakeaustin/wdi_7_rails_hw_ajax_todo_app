@@ -5,3 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+
+# make todos
+10.times do |i|
+  Todo.create!(content: "this is todo number #{i}")
+  puts "made todo #{i}"
+end
+
