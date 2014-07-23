@@ -25,6 +25,13 @@ $(document).ready(function() {
         donesHTML+= '<button class="delete">Delete</button>';
         donesHTML+= '</li>';
         doneCount ++;
+            //$('#dones').append(HandlebarTemplates.makeDone(todos))
+    // makeDone will go through todos, and generate lines 22-26
+    // for the todos with completed == false
+    // returns the equivalent of donesHTML
+    //
+    //$('#todos').append(HandlebarTemplates.makeTodo(todos))
+    // same same, but different
       }
       else {
         todosHTML+= '<li class="uncompleted" id=' + todos[i].id + '>';
@@ -124,7 +131,7 @@ $(document).ready(function() {
     })
     .fail(console.log('failed'));
 
-    count = $('#todoCount').attr('val');
+    var count = $('#todoCount').attr('val');
     count --;
     $('#todoCount').attr('val', count);
     $('#todoCount').empty();
@@ -136,6 +143,7 @@ $(document).ready(function() {
     event.preventDefault();
     var todoID = $(this).parent().attr('id');
     var count;
+    //decrement appropriate counter
     if ($(this).parent().attr('class') === 'completed') {
       count = $('#doneCount').attr('val');
       count --;
