@@ -13,17 +13,33 @@ $(document).ready(function() {
   // callback handler is invoked when ajax is done
   todosCallbackHandler = function(todos) {
     var todosHTML = '';
+    var donesHTML = '';
     //build html
+    console.log('in get handler');
     for(var i=0; i<todos.length; i++){
-      todosHTML+= '<li class="uncomplete" id=' + todos[i].id + '>';
-      todosHTML+= todos[i].content + ' -- ';
-      todosHTML+= todos[i].created_at;
-      todosHTML+= '<button class="complete">Complete</button>';
-      todosHTML+= '<button class="delete">Delete</button>';
-      todosHTML+= '</li>';
+      if (todos[i].completed) {
+        donesHTML+= '<li class="complete" id=' + todos[i].id + '>';
+        donesHTML+= todos[i].content + ' -- ';
+        donesHTML+= todos[i].completed_at;
+        donesHTML+= '<button class="delete">Delete</button>';
+        donesHTML+= '</li>';
+      }
+      else {
+        todosHTML+= '<li class="uncomplete" id=' + todos[i].id + '>';
+        todosHTML+= todos[i].content + ' -- ';
+        todosHTML+= todos[i].created_at;
+        todosHTML+= '<button class="complete">Complete</button>';
+        todosHTML+= '<button class="delete">Delete</button>';
+        todosHTML+= '</li>';
+        console.log('in uncompleted');
+      }
     }
 
+    console.log(todosHTML);
+    console.log(donesHTML);
     $('#todos').empty();
+    $('#dones').empty();
+    $('#dones').append(donesHTML);
     $('#todos').append(todosHTML);
   },
   todoHTML = function(todo){
@@ -92,7 +108,7 @@ $(document).ready(function() {
     }).done(getDone(todoID))
       .fail(console.log('failed'));
   };
-
+//   STILL FAILING, DESPITE APPARENTLY WORKING
 
   //set up click handler for completing a todo
   $('#todos').on('click', '.complete', completeTodoCallbackHandler);
