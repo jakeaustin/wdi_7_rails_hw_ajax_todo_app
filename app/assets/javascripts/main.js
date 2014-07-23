@@ -77,7 +77,13 @@ $(document).ready(function() {
       url: 'http://localhost:3000/todos',
       data: requestObj,
       dataType: 'json'
-    }).done(getTodo);
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      if (errorThrown === "Unprocessable Entity ") {
+        alert('Todo is blank or already in list');
+      }
+    })
+    .done(getTodo);
 
     $content.val('');
   },
@@ -88,9 +94,6 @@ $(document).ready(function() {
     html+= '<button class="delete">Delete</button>';
     html+= '</li>';
     return html;
-  },
-  getDone = function(id){
-
   },
   // add done to dones list and increment counter
   doneCallbackHandler = function(todo) {
