@@ -19,7 +19,7 @@ $(document).ready(function() {
     //build html
     for(var i=0; i<todos.length; i++){
       if (todos[i].completed) {
-        donesHTML+= '<li class="complete" id=' + todos[i].id + '>';
+        donesHTML+= '<li class="completed" id=' + todos[i].id + '>';
         donesHTML+= todos[i].content + ' -- ';
         donesHTML+= todos[i].completed_at;
         donesHTML+= '<button class="delete">Delete</button>';
@@ -27,7 +27,7 @@ $(document).ready(function() {
         doneCount ++;
       }
       else {
-        todosHTML+= '<li class="uncomplete" id=' + todos[i].id + '>';
+        todosHTML+= '<li class="uncompleted" id=' + todos[i].id + '>';
         todosHTML+= todos[i].content + ' -- ';
         todosHTML+= todos[i].created_at;
         todosHTML+= '<button class="complete">Complete</button>';
@@ -38,13 +38,15 @@ $(document).ready(function() {
     }
     $('#todos').empty();
     $('#dones').empty();
-    $('#dones').append(doneCount);
-    $('#todos').append(todoCount);
+    $('#doneCount').attr('val', doneCount);
+    $('#todoCount').attr('val', todoCount);
+    $('#doneCount').append(doneCount);
+    $('#todoCount').append(todoCount);
     $('#dones').append(donesHTML);
     $('#todos').append(todosHTML);
   },
   todoHTML = function(todo){
-    var html = '<li class="uncomplete" id=' + todo.id + '>';
+    var html = '<li class="uncompleted" id=' + todo.id + '>';
     html+= todo.content + ' -- ';
     html+= todo.created_at;
     html+= '<button class="complete">Complete</button>';
@@ -55,6 +57,11 @@ $(document).ready(function() {
   getTodo = function(todo){
     // Add the article to the article list
     $('#todos').append(todoHTML(todo));
+    var count = $('#todoCount').attr('val');
+    count ++;
+    $('#todoCount').attr('val', count);
+    $('#todoCount').empty();
+    $('#todoCount').append(count);
   },
   createTodoCallbackHandler = function(event){
     var $form = $(event.target);
@@ -77,7 +84,7 @@ $(document).ready(function() {
 
 
   completeTodoHTML = function(todo){
-    var html = '<li class="complete" id=' + todo.id + '>';
+    var html = '<li class="completed" id=' + todo.id + '>';
     html+= todo.content + ' -- ';
     html+= todo.completed_at;
     html+= '<button class="delete">Delete</button>';
@@ -93,6 +100,11 @@ $(document).ready(function() {
   },
   doneCallbackHandler = function(todo) {
     $('#dones').append(completeTodoHTML(todo));
+    var count = $('#doneCount').attr('val');
+    count ++;
+    $('#doneCount').attr('val', count);
+    $('#doneCount').empty();
+    $('#doneCount').append(count);
   },
   completeTodoCallbackHandler = function(event) {
     event.preventDefault();
@@ -111,6 +123,21 @@ $(document).ready(function() {
   deleteTodoCallbackHandler = function(event){
     event.preventDefault();
     var todoID = $(this).parent().attr('id');
+    var count;
+    if ($(this).parent().attr('class') === 'completed') {
+      count = $('#doneCount').attr('val');
+      count --;
+      $('#doneCount').attr('val', count);
+      $('#doneCount').empty();
+      $('#doneCount').append(count);
+    }
+    else {
+      count = $('#todoCount').attr('val');
+      count --;
+      $('#todoCount').attr('val', count);
+      $('#todoCount').empty();
+      $('#todoCount').append(count);
+    }
     $(this).parent().remove();
     $.ajax({
       type: 'DELETE',
