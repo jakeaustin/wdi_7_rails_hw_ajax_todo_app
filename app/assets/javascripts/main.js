@@ -105,7 +105,7 @@ $(document).ready(function() {
     $('#doneCount').empty();
     $('#doneCount').append(count);
   },
-  completeTodoCallbackHandler = function(event) {
+  completeTodo = function(event) {
     event.preventDefault();
     var todoID = $(this).parent().attr('id');
     // remove li from todos
@@ -149,7 +149,7 @@ $(document).ready(function() {
   //set up click handler for deleting a todo
   $('ol').on('click', '.delete', deleteTodo);
   //set up click handler for completing a todo
-  $('#todos').on('click', '.complete', completeTodoCallbackHandler);
+  $('#todos').on('click', '.complete', completeTodo);
   // Set up click handler for form submit
   $('#new-todo').on('submit', createTodo);
   // Set up click handler for getting articles.
