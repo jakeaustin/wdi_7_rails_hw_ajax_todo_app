@@ -1,18 +1,17 @@
 class TodosController < ApplicationController
 
-  # def default_serializer_options
-  #   {root: false}
-  # end
+  def default_serializer_options
+    {root: false}
+  end
 
   # only respond to requests for JSON
+
   respond_to :json
 
   def index
     #respond_with (@todos = Todo.all)
     @todos = Todo.all
-    respond_to do |format|
-      format.json { render :json => @todos }
-    end
+    respond_with @todos
   end
 
   def show
@@ -31,7 +30,7 @@ class TodosController < ApplicationController
   private
 
   def todo_params
-    params.require(:todo).permit(:content)
+    params.require(:todo).permit(:content, :completed_at)
   end
 end
 
