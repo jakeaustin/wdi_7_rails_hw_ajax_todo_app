@@ -55,7 +55,7 @@ $(document).ready(function() {
     return html;
   },
   getTodo = function(todo){
-    // Add the article to the article list
+    // Add the article to the article list and increment counter
     $('#todos').append(todoHTML(todo));
     var count = $('#todoCount').attr('val');
     count ++;
@@ -63,7 +63,7 @@ $(document).ready(function() {
     $('#todoCount').empty();
     $('#todoCount').append(count);
   },
-  createTodoCallbackHandler = function(event){
+  createTodo = function(event){
     var $form = $(event.target);
     var $content = $form.find("input[name='content']");
     var action = $form.attr('action');
@@ -81,8 +81,6 @@ $(document).ready(function() {
 
     $content.val('');
   },
-
-
   completeTodoHTML = function(todo){
     var html = '<li class="completed" id=' + todo.id + '>';
     html+= todo.content + ' -- ';
@@ -98,6 +96,7 @@ $(document).ready(function() {
       dataType: 'json',
     }).done(doneCallbackHandler);
   },
+  // add done to dones list and increment counter
   doneCallbackHandler = function(todo) {
     $('#dones').append(completeTodoHTML(todo));
     var count = $('#doneCount').attr('val');
@@ -120,7 +119,8 @@ $(document).ready(function() {
       .fail(console.log('failed'));
   },
     //   STILL FAILING, DESPITE APPARENTLY WORKING
-  deleteTodoCallbackHandler = function(event){
+    //////////////////////////////////////////////
+  deleteTodo = function(event){
     event.preventDefault();
     var todoID = $(this).parent().attr('id');
     var count;
@@ -147,11 +147,11 @@ $(document).ready(function() {
   };
 
   //set up click handler for deleting a todo
-  $('ol').on('click', '.delete', deleteTodoCallbackHandler);
+  $('ol').on('click', '.delete', deleteTodo);
   //set up click handler for completing a todo
   $('#todos').on('click', '.complete', completeTodoCallbackHandler);
   // Set up click handler for form submit
-  $('#new-todo').on('submit', createTodoCallbackHandler);
+  $('#new-todo').on('submit', createTodo);
   // Set up click handler for getting articles.
   $('#get-todos').on('click', getTodos);
   // Simulate a user click event.
