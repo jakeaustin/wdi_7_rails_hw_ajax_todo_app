@@ -20,11 +20,8 @@ class TodosController < ApplicationController
 
   def create
     @todo = Todo.new(todo_params)
-    if @todo.save
-      respond_with @todo
-    else
-      respond_with @todo.errors
-    end
+    @todo.save
+    respond_with @todo
   end
 
   def update
