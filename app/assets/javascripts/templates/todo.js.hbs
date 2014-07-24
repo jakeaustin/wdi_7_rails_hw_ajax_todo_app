@@ -1,0 +1,11 @@
+{{#each this}}
+  {{#unless completed}}
+    <li class="uncompleted" id='{{id}}'>
+    <h4>
+      {{content}} -- {{created_at}}
+    </h4>
+    <button class="complete">Complete</button>
+    <button class="delete">Delete</button>
+    </li>
+  {{/unless}}
+{{/each}}

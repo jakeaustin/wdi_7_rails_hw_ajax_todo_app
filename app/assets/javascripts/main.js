@@ -12,58 +12,29 @@ $(document).ready(function() {
 
   // callback handler is invoked when ajax is done
   todosCallbackHandler = function(todos) {
-    var todosHTML = '';
-    var donesHTML = '';
     var todoCount = 0;
     var doneCount = 0;
     //build html
     for(var i=0; i<todos.length; i++){
       if (todos[i].completed) {
-        donesHTML+= '<li class="completed" id=' + todos[i].id + '>';
-        donesHTML+= todos[i].content + ' -- ';
-        donesHTML+= todos[i].completed_at;
-        donesHTML+= '<button class="delete">Delete</button>';
-        donesHTML+= '</li>';
         doneCount ++;
-            //$('#dones').append(HandlebarTemplates.makeDone(todos))
-    // makeDone will go through todos, and generate lines 22-26
-    // for the todos with completed == false
-    // returns the equivalent of donesHTML
-    //
-    //$('#todos').append(HandlebarTemplates.makeTodo(todos))
-    // same same, but different
       }
       else {
-        todosHTML+= '<li class="uncompleted" id=' + todos[i].id + '>';
-        todosHTML+= todos[i].content + ' -- ';
-        todosHTML+= todos[i].created_at;
-        todosHTML+= '<button class="complete">Complete</button>';
-        todosHTML+= '<button class="delete">Delete</button>';
-        todosHTML+= '</li>';
         todoCount ++;
       }
     }
-    $('#todos').empty();
-    $('#dones').empty();
     $('#doneCount').attr('val', doneCount);
     $('#todoCount').attr('val', todoCount);
     $('#doneCount').append(doneCount);
     $('#todoCount').append(todoCount);
-    $('#dones').append(donesHTML);
-    $('#todos').append(todosHTML);
-  },
-  todoHTML = function(todo){
-    var html = '<li class="uncompleted" id=' + todo.id + '>';
-    html+= todo.content + ' -- ';
-    html+= todo.created_at;
-    html+= '<button class="complete">Complete</button>';
-    html+= '<button class="delete">Delete</button>';
-    html+= '</li>';
-    return html;
+    $('#todos').empty();
+    $('#dones').empty();
+    $('#todos').append(HandlebarsTemplates.todo(todos));
+    $('#dones').append(HandlebarsTemplates.done(todos));
   },
   getTodo = function(todo){
     // Add the article to the article list and increment counter
-    $('#todos').append(todoHTML(todo));
+    $('#todos').append(HandlebarsTemplates.todo([todo]));
     var count = $('#todoCount').attr('val');
     count ++;
     $('#todoCount').attr('val', count);
@@ -94,17 +65,9 @@ $(document).ready(function() {
 
     $content.val('');
   },
-  completeTodoHTML = function(todo){
-    var html = '<li class="completed" id=' + todo.id + '>';
-    html+= todo.content + ' -- ';
-    html+= todo.completed_at;
-    html+= '<button class="delete">Delete</button>';
-    html+= '</li>';
-    return html;
-  },
   // add done to dones list and increment counter
-  doneCallbackHandler = function(todo) {
-    $('#dones').append(completeTodoHTML(todo));
+  completeCallbackHandler = function(todo) {
+    $('#dones').append(HandlebarsTemplates.done([todo]));
     var count = $('#doneCount').attr('val');
     count ++;
     $('#doneCount').attr('val', count);
@@ -127,7 +90,7 @@ $(document).ready(function() {
         type: 'GET',
         url: 'http://localhost:3000/todos/' + todoID,
         dataType: 'json',
-      }).done(doneCallbackHandler);
+      }).done(completeCallbackHandler);
     })
     .fail(console.log('failed'));
 
